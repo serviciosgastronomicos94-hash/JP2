@@ -41,15 +41,15 @@
         const firebaseConfig = typeof __firebase_config !== 'undefined' 
             ? JSON.parse(__firebase_config) 
             : {
-  apiKey: "AIzaSyD_zxcdcmC4_LFLU9qC6NeP2Y5HY-_lmE4",
-  authDomain: "javis-pasteleria-79b6b.firebaseapp.com",
-  projectId: "javis-pasteleria-79b6b",
-  storageBucket: "javis-pasteleria-79b6b.firebasestorage.app",
-  messagingSenderId: "750026678505",
-  appId: "1:750026678505:web:14db2e9d8b85c729151078"
+   apiKey: "AIzaSyDh3w6i1HRUTuWWI9P1BMeWni5JxIDQ0N8",
+  authDomain: "javis-pasteleria-160626.firebaseapp.com",
+  projectId: "javis-pasteleria-160626",
+  storageBucket: "javis-pasteleria-160626.firebasestorage.app",
+  messagingSenderId: "662827193071",
+  appId: "1:662827193071:web:56021a2bf97f75fac6011a"
 };
 
-        const GEMINI_API_KEY = ""; 
+        const GEMINI_API_KEY = "AQ.Ab8RN6JuoYKcN_Hn2imQx865kBWyYDkzR9c1CLb_0FOp4905Jg"; 
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'javis-pasteleria-app';
 
         // Inicializar Firebase
@@ -76,7 +76,7 @@
         });
 
         async function callGeminiOCR(base64Image) {
-            if (GEMINI_API_KEY === "") {
+            if (GEMINI_API_KEY === "AQ.Ab8RN6JuoYKcN_Hn2imQx865kBWyYDkzR9c1CLb_0FOp4905Jg") {
                 throw new Error("Falta la API Key de Gemini");
             }
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
