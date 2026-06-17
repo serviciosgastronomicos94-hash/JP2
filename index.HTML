@@ -16,9 +16,9 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     
     <!-- Babel (Para compilar JSX en el navegador) -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
 
-    <!-- Firebase (Versión Compat 8.x para HTML sin compilador) -->
+    <!-- Firebase (Versión Compat 8.x/10.x para HTML sin compilador) -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -41,16 +41,17 @@
         const firebaseConfig = typeof __firebase_config !== 'undefined' 
             ? JSON.parse(__firebase_config) 
             : {
-   apiKey: "AIzaSyDh3w6i1HRUTuWWI9P1BMeWni5JxIDQ0N8",
-  authDomain: "javis-pasteleria-160626.firebaseapp.com",
-  projectId: "javis-pasteleria-160626",
-  storageBucket: "javis-pasteleria-160626.firebasestorage.app",
-  messagingSenderId: "662827193071",
-  appId: "1:662827193071:web:56021a2bf97f75fac6011a"
-};
+                apiKey: "AIzaSyDh3w6i1HRUTuWWI9P1BMeWni5JxIDQ0N8",
+                authDomain: "javis-pasteleria-160626.firebaseapp.com",
+                projectId: "javis-pasteleria-160626",
+                storageBucket: "javis-pasteleria-160626.firebasestorage.app",
+                messagingSenderId: "662827193071",
+                appId: "1:662827193071:web:56021a2bf97f75fac6011a"
+            };
 
-        const GEMINI_API_KEY = "AQ.Ab8RN6JuoYKcN_Hn2imQx865kBWyYDkzR9c1CLb_0FOp4905Jg"; 
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'javis-pasteleria-app';
+        // Llave de Google Gemini añadida para exportación a GitHub
+        const apiKey = "AQ.Ab8RN6JuoYKcN_Hn2imQx865kBWyYDkzR9c1CLb_0FOp4905Jg"; 
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'javis-pasteleria-160626';
 
         // Inicializar Firebase
         if (!firebase.apps.length) {
@@ -76,10 +77,8 @@
         });
 
         async function callGeminiOCR(base64Image) {
-            if (GEMINI_API_KEY === "AQ.Ab8RN6JuoYKcN_Hn2imQx865kBWyYDkzR9c1CLb_0FOp4905Jg") {
-                throw new Error("Falta la API Key de Gemini");
-            }
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+            // Utilizamos el modelo específico soportado en este entorno para visión
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             const base64Data = base64Image.split(',')[1];
             
             const payload = {
@@ -94,6 +93,9 @@
             };
 
             const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            if (!response.ok) {
+                throw new Error("Error en la respuesta de la IA. Posible falta de API Key.");
+            }
             const data = await response.json();
             return JSON.parse(data.candidates[0].content.parts[0].text);
         }
